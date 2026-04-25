@@ -11,10 +11,6 @@ pipeline {
 
                 echo 'GitHub se Code Pull Ho Raha Hai...'
 
-                git branch: 'master',
-
-                    url: 'https://github.com/Naresh-Kumar01/LearningDemo.git'
-
             }
 
         }

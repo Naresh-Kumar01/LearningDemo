@@ -1,11 +1,19 @@
 
 FROM eclipse-temurin:17
 
+# Maven install karo
+RUN apt-get update && apt-get install -y maven
+
 WORKDIR /app
 
-COPY . /app
+# Pehle pom.xml copy karo (dependencies cache ke liye)
+COPY pom.xml .
 
-RUN echo "Build Complete"
+# Dependencies download karo
+RUN mvn dependency:go-offline -B
 
-CMD ["echo", "App is Running!"]
+# Baaki saara code copy karo
+COPY . .
 
+# Tests run karo
+CMD ["mvn", "test"]

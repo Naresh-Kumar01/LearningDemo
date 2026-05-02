@@ -1,67 +1,48 @@
 
 pipeline {
-
     agent any
 
     stages {
 
         stage('Code Pull') {
-
             steps {
-
                 echo 'GitHub se Code Pull Ho Raha Hai...'
-
             }
-
         }
 
-        stage('Build') {
-
+        stage('Start Selenium Grid') {
             steps {
-
-                echo 'Build Successful!'
-
+                bat 'docker-compose up -d'
+                sleep(time: 15, unit: 'SECONDS')
+                echo 'Selenium Grid Ready!'
             }
-
         }
 
         stage('Docker Image Build') {
-
             steps {
-
                 bat 'docker build -t learningdemo .'
-
             }
-
         }
 
-        stage('Docker Deploy') {
-
+        stage('Run Tests in Container') {
             steps {
-
-                bat 'docker run -d -p 9090:9090 learningdemo'
-
+                bat 'docker run --network="host" learningdemo'
             }
-
         }
 
+        stage('Stop Selenium Grid') {
+            steps {
+                bat 'docker-compose down'
+            }
+        }
     }
 
     post {
-
         success {
-
-            echo 'Pipeline Successfully Complete!'
-
+            echo '✅ Pipeline Successfully Complete!'
         }
-
         failure {
-
-            echo 'Pipeline Failed!'
-
+            echo '❌ Pipeline Failed!'
         }
-
     }
-
 }
-

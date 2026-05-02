@@ -45,4 +45,10 @@ pipeline {
             echo '❌ Pipeline Failed!'
         }
     }
+    stage('Start Selenium Grid') {
+    steps {
+        bat 'docker-compose -f C:\\Users\\Admin\\docker-compose.yml up -d'
+        sleep(time: 15, unit: 'SECONDS')
+    }
+}
 }

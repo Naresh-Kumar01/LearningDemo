@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -26,7 +25,7 @@ pipeline {
 
         stage('Run Tests in Container') {
             steps {
-                bat 'docker run --network="host" learningdemo'
+                bat 'docker run --network=host learningdemo'
             }
         }
 
@@ -35,6 +34,7 @@ pipeline {
                 bat 'docker-compose down'
             }
         }
+
     }
 
     post {
@@ -45,10 +45,4 @@ pipeline {
             echo '❌ Pipeline Failed!'
         }
     }
-    stage('Start Selenium Grid') {
-    steps {
-        bat 'docker-compose -f C:\\Users\\Admin\\docker-compose.yml up -d'
-        sleep(time: 15, unit: 'SECONDS')
-    }
-}
 }
